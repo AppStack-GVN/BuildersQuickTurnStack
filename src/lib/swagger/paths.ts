@@ -1,0 +1,124 @@
+import { OpenAPIV3 } from "openapi-types";
+
+export const swaggerPaths: OpenAPIV3.PathsObject = {
+  "/api/auth/register": {
+    post: {
+      summary: "Register a new user",
+      tags: ["Auth"],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: { $ref: "#/components/schemas/RegisterUserInput" },
+          },
+        },
+      },
+      responses: {
+        201: { description: "User registered successfully" },
+        400: { description: "Bad request" },
+        409: { description: "User already exists" },
+        500: { description: "Server error" },
+      },
+    },
+  },
+  "/api/auth/login": {
+    post: {
+      summary: "Login",
+      tags: ["Auth"],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: { $ref: "#/components/schemas/LoginUserInput" },
+          },
+        },
+      },
+      responses: {
+        200: { description: "User login successfully" },
+        400: { description: "Bad request" },
+        401: { description: "Invalid credentials" },
+        404: { description: "User not found" },
+        500: { description: "Server error" },
+      },
+    },
+  },
+  "/api/auth/generateResetToken": {
+    post: {
+      summary: "Generate token to reset a user's password",
+      tags: ["Password Reset"],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: { $ref: "#/components/schemas/PasswordResetInput" },
+          },
+        },
+      },
+      responses: {
+        201: { description: "Generated Reset Token successfully" },
+        400: { description: "Bad request" },
+        500: { description: "Server error" },
+      },
+    },
+  },
+  "/api/auth/requestPasswordResetStatus": {
+    patch: {
+      summary: "Update Password Reset's request status",
+      tags: ["Password Reset"],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: { $ref: "#/components/schemas/PasswordResetRequestInput" },
+          },
+        },
+      },
+      responses: {
+        201: { description: "Password Rest Status's Updated successfully" },
+        400: { description: "Bad request" },
+        500: { description: "Server error" },
+      },
+    },
+  },
+  "/api/auth/passwordReset": {
+    post: {
+      summary: "Password Reset",
+      tags: ["Password Reset"],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: { $ref: "#/components/schemas/newPasswordResetInput" },
+          },
+        },
+      },
+      responses: {
+        201: { description: "Password Reset successfully" },
+        400: { description: "Bad request" },
+        500: { description: "Server error" },
+      },
+    },
+  },
+  "/api/auth/passwordRequestWithEmail": {
+    post: {
+      summary: "Password Reset Request With Email",
+      tags: ["Password Reset With Email"],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: { $ref: "#/components/schemas/PasswordResetInput" },
+          },
+        },
+      },
+      responses: {
+        200: { description: "Password reset email has been sent." },
+        404: { description: "User not found." },
+        405: { description: "Methods not allowed" },
+        422: { description: "Validation Errors" },
+        429: { description: "We already sent you a password reset link.PLease try again in 1 hour." },
+        500: { description: "Internal Server error" },        
+      },
+    },
+  },
+};
